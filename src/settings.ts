@@ -1,12 +1,12 @@
 import { readFileSync } from "fs";
 
 class Settings {
-    public file_path: string;
-    private file_contents: string;
-    private data: any;
+    public file_path: string
+    private file_contents: string
+    private data: any
 
     constructor (file: string) {
-        this.file_path = file;
+        this.file_path = file
         this.reload()
     }
 
@@ -15,8 +15,8 @@ class Settings {
      * @description Lê novamente o arquivo de configuração.
      */
     public reload() {
-        this.file_contents = readFileSync(this.file_path, { encoding: 'utf-8' });
-        this.data = JSON.parse(this.file_contents);
+        this.file_contents = readFileSync(this.file_path, { encoding: 'utf-8' })
+        this.data = JSON.parse(this.file_contents)
     }
 
     /**
@@ -24,23 +24,7 @@ class Settings {
      * @description Retorna um valor de configuração qualquer.
      */
     public value(key: string): any {
-        return this.data[key];
-    }
-
-    /**
-     * string
-     * @description Retorna um valor como string.
-     */
-    public string(key: string): string {
-        return String(this.value(key));
-    }
-    
-    /**
-     * bool
-     * @description Retorna um valor como boolean.
-     */
-    public bool(key: string): boolean {
-        return Boolean(this.value(key));
+        return this.data[key]
     }
 }
 export default Settings
