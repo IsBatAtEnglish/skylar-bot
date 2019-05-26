@@ -31,7 +31,19 @@ class Client {
             .then(() => {
                 const end = Date.now()
                 log(`${chalk.green('Login concluído.')} (levou ${chalk.blue(`${end - start}ms`)})`)
+                this.postLogin()
             })
+            .catch(ex => {
+                log(chalk.redBright('!!! ERRO AO INICIAR O CLIENTE !!!'))
+                log(chalk.red('Mais detalhes:'))
+                log('\n\n', chalk.redBright(ex.stack), '\n')
+                log(chalk.red('O processo do bot será terminado.'))
+                process.exit(1)
+            })
+    }
+
+    public postLogin() : void {
+        this.discord.user.setActivity('::ping')
     }
 
     /**
