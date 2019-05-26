@@ -7,7 +7,7 @@ export default class implements Command {
     public aliases: Array<string> = []
     public priviledge: Array<string> = []
 
-    public async run (client: Client, handler: CommandHandler, msg: Discord.Message): Promise<void> {
+    public async run (client: Client, handler: CommandHandler, msg: Discord.Message) : Promise<void> {
         msg.reply(`${client.discord.ping}ms`)
         return null    
     }

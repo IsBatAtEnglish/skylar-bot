@@ -25,18 +25,20 @@ class Client {
      * start
      * @description Inicia o cliente
      */
-    public async start(): Promise<void> {
+    public start() : void {
         const start = Date.now()
-        await this.discord.login(this.token)
-        const end = Date.now()
-        log(`${chalk.green('Login concluído.')} (levou ${chalk.blue(`${end - start}ms`)})`)
+        this.discord.login(this.token)
+            .then(() => {
+                const end = Date.now()
+                log(`${chalk.green('Login concluído.')} (levou ${chalk.blue(`${end - start}ms`)})`)
+            })
     }
 
     /**
      * Executado quando uma mensagem é recebida.
      * @param msg Mensagem recebida
      */
-    private onMessage (msg: Discord.Message) {
+    private onMessage (msg: Discord.Message) : void {
         const prefix: string = this.settings.value('prefix')
 
         const author: Discord.User = msg.author

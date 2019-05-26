@@ -1,5 +1,5 @@
 import { readdirSync } from 'fs'
-import * as path from 'path'
+import { join } from 'path'
 import { Message, User } from 'discord.js'
 import { Client } from './client'
 import log from './logger';
@@ -17,7 +17,7 @@ class CommandHandler {
 
     public commandPath: string = './'
     public commands: Array<Command> = []
-    public prefix: string
+    public prefix: string = '::'
 
     constructor (client: Client) {
         this.client = client
@@ -25,7 +25,7 @@ class CommandHandler {
         this.commandPath = this.client.settings.value('command_path')
     }
 
-    public async loadAll(): Promise<CommandHandler> {
+    public async loadAll() : Promise<CommandHandler> {
         // Limpar os comandos já carregados
         this.commands.length = 0
 
@@ -33,7 +33,7 @@ class CommandHandler {
 
         for (let file of files) {
             // Corrigir o caminho do comando
-            file = path.join(__dirname, this.commandPath, file)
+            file = join(__dirname, this.commandPath, file)
 
             try {
                 // Importa a classe de cada comando e as inicializa
@@ -50,7 +50,7 @@ class CommandHandler {
         return this
     }
 
-    public async onMessage(msg: Message) {
+    public async onMessage(msg: Message) : Promise<void> {
         if (!msg.content.startsWith(this.prefix)) return null
 
         const args = msg.content.split(' ')
@@ -58,8 +58,12 @@ class CommandHandler {
             .shift()
             .replace(this.prefix, '')
 
+        // Pegar o comando correspondente ao ID através de seu nome
+        // ou de um alias
         const cmd = this.commands.find(cmd => 
             cmd.name === cmd_id || cmd.aliases.includes(cmd_id))
+
+        if (!cmd) return null
 
         cmd.run(this.client, this, msg)
             .catch(ex => {
