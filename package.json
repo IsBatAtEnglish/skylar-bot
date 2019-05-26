@@ -1,0 +1,25 @@
+{
+  "name": "skylar-bot",
+  "version": "0.0.1",
+  "description": "Um bot para Discord",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IsBatAtEnglish/skylar-bot.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "2019"
+  ],
+  "author": "IsBatAtEnglish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IsBatAtEnglish/skylar-bot/issues"
+  },
+  "homepage": "https://github.com/IsBatAtEnglish/skylar-bot#readme"
+}
