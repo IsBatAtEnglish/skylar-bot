@@ -20,11 +20,27 @@ class Settings {
     }
 
     /**
-     * get
-     * @description Retorna um valor de configuração.
+     * value
+     * @description Retorna um valor de configuração qualquer.
      */
-    public value(key: string): string {
-        return this.data[key].toString();
+    public value(key: string): any {
+        return this.data[key];
+    }
+
+    /**
+     * string
+     * @description Retorna um valor como string.
+     */
+    public string(key: string): string {
+        return String(this.value(key));
+    }
+    
+    /**
+     * bool
+     * @description Retorna um valor como boolean.
+     */
+    public bool(key: string): boolean {
+        return Boolean(this.value(key));
     }
 }
 export default Settings

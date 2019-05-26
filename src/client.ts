@@ -8,7 +8,7 @@ class Client {
     constructor (settings_file: string) {
         this.settings = new Settings(settings_file);
         this.discord = new Discord.Client();
-        this.token = this.settings.value('auth');
+        this.token = this.settings.string('auth');
     }
 
     /**
