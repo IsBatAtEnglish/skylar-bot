@@ -7,6 +7,7 @@ import chalk from 'chalk';
 
 interface Command {
     name: string
+    description: string
     aliases: Array<string>
     priviledge: Array<string>
     run (client: Client, handler: CommandHandler, msg: Message): Promise<void>
@@ -67,6 +68,11 @@ class CommandHandler {
 
         cmd.run(this.client, this, msg)
             .catch(ex => {
+                log(chalk.red(`❌  Erro no comando ${chalk.blue(cmd.name)}!`))
+                // @ts-ignore
+                log(`Guild: ${msg.guild ? chalk.blue(msg.guild.name) : chalk.red('Não')}`)
+                log(`Mensagem: ${msg.cleanContent}`)
+                log(ex.stack)
                 msg.reply('Erro ao executar o comando.')
                     .catch(() => { /* wtf? */ })
             })

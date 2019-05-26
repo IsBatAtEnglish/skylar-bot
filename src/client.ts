@@ -51,6 +51,8 @@ class Client {
      * @param msg Mensagem recebida
      */
     private onMessage (msg: Discord.Message) : void {
+        if (msg.author.bot) return null
+        
         const prefix: string = this.settings.value('prefix')
 
         const author: Discord.User = msg.author
