@@ -2,16 +2,21 @@ import * as Discord from 'discord.js'
 import log from './logger'
 import chalk from 'chalk'
 import Settings from './settings'
+import { CommandHandler } from './command';
 
 class Client {
     public discord: Discord.Client
-    private settings: Settings
+    public settings: Settings
     private token: string
+    private commandHandler: CommandHandler
 
     constructor (settings_file: string) {
         this.settings = new Settings(settings_file)
         this.discord = new Discord.Client()
         this.token = this.settings.value('auth')
+        this.commandHandler = new CommandHandler(this)
+
+        this.commandHandler.loadAll()
 
         this.discord.on('message', msg => this.onMessage(msg))
     }
@@ -24,7 +29,7 @@ class Client {
         const start = Date.now()
         await this.discord.login(this.token)
         const end = Date.now()
-        log(`✔️  ${chalk.green('Login concluído.')} (levou ${chalk.blue(`${end - start}ms`)})`)
+        log(`${chalk.green('Login concluído.')} (levou ${chalk.blue(`${end - start}ms`)})`)
     }
 
     /**
@@ -38,6 +43,8 @@ class Client {
         const content: string = msg.content
 
         log(`Mensagem ~ ${chalk.blue(author.tag)}:\n${chalk.red('->')} ${content}`)
+
+        this.commandHandler.onMessage(msg)
     }
 }
 

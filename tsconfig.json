@@ -6,5 +6,5 @@
         "allowJs": true,
         "types": ["node", "discord.js"]
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*", "src/commands/**/*"]
 }
