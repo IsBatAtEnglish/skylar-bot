@@ -2,7 +2,7 @@ import * as Discord from 'discord.js'
 import log from './logger'
 import chalk from 'chalk'
 import Settings from './settings'
-import { CommandHandler } from './command';
+import { CommandHandler } from './commands';
 
 class Client {
     public discord: Discord.Client

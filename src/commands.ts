@@ -4,6 +4,7 @@ import { Message, User } from 'discord.js'
 import { Client } from './client'
 import log from './logger';
 import chalk from 'chalk';
+import * as recursive from 'recursive-readdir';
 
 interface Command {
     name: string
@@ -30,11 +31,11 @@ class CommandHandler {
         // Limpar os comandos já carregados
         this.commands.length = 0
 
-        const files: Array<string> = readdirSync(this.commandPath)
+        const files: Array<string> = await recursive(this.commandPath)
 
         for (let file of files) {
             // Corrigir o caminho do comando
-            file = join(__dirname, this.commandPath, file)
+            file = join(__dirname, file)
 
             try {
                 // Importa a classe de cada comando e as inicializa

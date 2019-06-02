@@ -1,6 +1,7 @@
-import { Command, CommandHandler } from "../command";
-import { Client } from "../client";
+import { Command, CommandHandler } from "../../commands";
+import { Client } from "../../client";
 import * as Discord from "discord.js";
+import Icons from "../../util/icons";
 
 export default class implements Command {
     public name: string = 'ping'
@@ -9,7 +10,7 @@ export default class implements Command {
     public priviledge: Array<string> = []
 
     public async run (client: Client, handler: CommandHandler, msg: Discord.Message) : Promise<void> {
-        msg.reply(`${client.discord.ping}ms`)
+        msg.reply(`${Icons.Clock} Pong — levou **${client.discord.ping}ms**!`)
         return null    
     }
 }

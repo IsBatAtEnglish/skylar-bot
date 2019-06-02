@@ -1,5 +1,5 @@
-import { Command, CommandHandler } from "../command";
-import { Client } from "../client";
+import { Command, CommandHandler } from "../../commands";
+import { Client } from "../../client";
 import * as Discord from "discord.js";
 
 export default class implements Command {
