@@ -1,6 +1,7 @@
 import { Command, CommandHandler } from "../../commands";
 import { Client } from "../../client";
 import * as Discord from "discord.js";
+import EmbedColors from "../../util/colors";
 
 export default class implements Command {
     public name: string = 'ajuda'
@@ -10,7 +11,8 @@ export default class implements Command {
 
     public async run (client: Client, handler: CommandHandler, msg: Discord.Message) : Promise<void> {
         const emb = new Discord.RichEmbed()
-        
+            .setColor(EmbedColors.Indigo)
+            
         for (const command of handler.commands) {
             emb.addField(command.name, `${command.description}\nAliases: \`${command.aliases.join(' ') || '-'}\``)
         }
