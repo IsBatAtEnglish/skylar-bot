@@ -1,3 +1,6 @@
 {
-    "auth": ""
+    "auth": "",
+    "owner": "",
+    "prefix": "::",
+    "command_path": "./commands/"
 }

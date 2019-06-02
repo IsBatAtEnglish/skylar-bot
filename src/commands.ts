@@ -66,7 +66,12 @@ class CommandHandler {
             cmd.name === cmd_id || cmd.aliases.includes(cmd_id))
 
         if (!cmd) return null
-
+        
+        // Validar permissões
+        const ownerOnly: boolean = cmd.priviledge.includes('BOT_OWNER')
+        if (ownerOnly && msg.author.id !== this.client.settings.value('owner'))
+            return null
+            
         cmd.run(this.client, this, msg)
             .catch(ex => {
                 log(chalk.red(`❌  Erro no comando ${chalk.blue(cmd.name)}!`))

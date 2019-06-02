@@ -6,7 +6,7 @@ export default class implements Command {
     public name: string = 'ajuda'
     public description: string = 'Mostra a lista de comandos'
     public aliases: Array<string> = ['help', 'h']
-    public priviledge: Array<string> = []
+    public priviledge: Array<string> = ['BOT_OWNER']
 
     public async run (client: Client, handler: CommandHandler, msg: Discord.Message) : Promise<void> {
         const emb = new Discord.RichEmbed()
