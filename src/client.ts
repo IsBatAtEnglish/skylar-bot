@@ -43,7 +43,7 @@ class Client {
     }
 
     public postLogin() : void {
-        this.discord.user.setActivity('::ping')
+        this.discord.user.setActivity('Digite ::ajuda meu chapa')
     }
 
     /**
