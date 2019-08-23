@@ -7,6 +7,7 @@ import EmbedColors from "../../util/colors";
 export default class implements Command {
     public name: string = 'avatar'
     public description: string = 'Mostra o avatar'
+    public usage: string = '@usuário'
     public aliases: Array<string> = []
     public priviledge: Array<string> = []
 

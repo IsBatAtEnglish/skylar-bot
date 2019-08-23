@@ -9,6 +9,7 @@ import * as recursive from 'recursive-readdir';
 interface Command {
     name: string
     description: string
+    usage: string
     aliases: Array<string>
     priviledge: Array<string>
     run (client: Client, handler: CommandHandler, msg: Message): Promise<void>

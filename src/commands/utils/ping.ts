@@ -6,6 +6,7 @@ import Icons from "../../util/icons";
 export default class implements Command {
     public name: string = 'ping'
     public description: string = 'Mostra o ping do bot'
+    public usage: string = ''
     public aliases: Array<string> = []
     public priviledge: Array<string> = []
 
