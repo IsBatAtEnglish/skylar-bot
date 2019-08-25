@@ -1,6 +1,7 @@
 enum Icons {
     Clock = "🕑",
-    Picture = "🖼"
+    Picture = "🖼",
+    PencilPaper = "📝"
 }
 
 export default Icons

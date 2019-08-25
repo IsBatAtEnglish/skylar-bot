@@ -12,7 +12,7 @@ interface Command {
     usage: string
     aliases: Array<string>
     priviledge: Array<string>
-    run (client: Client, handler: CommandHandler, msg: Message): Promise<void>
+    run (client: Client, handler: CommandHandler, msg: Message, args: Array<string>): Promise<void>
 }
 
 class CommandHandler {
@@ -73,7 +73,7 @@ class CommandHandler {
         if (ownerOnly && msg.author.id !== this.client.settings.value('owner'))
             return null
             
-        cmd.run(this.client, this, msg)
+        cmd.run(this.client, this, msg, args)
             .catch(ex => {
                 log(chalk.red(`❌  Erro no comando ${chalk.blue(cmd.name)}!`))
                 // @ts-ignore
