@@ -2,5 +2,5 @@
     "auth": "",
     "owner": "",
     "prefix": "c.",
-    "db_path": "./db/bot.db"
+    "db_url": ""
 }

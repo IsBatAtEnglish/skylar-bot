@@ -65,6 +65,11 @@ class CommandManager {
                 log(ex.stack)
                 msg.reply(`*Houve um erro ao executar esse comando -- \`${ex.name}\`*`)
             })
+
+        // Atualizar número de logins no banco de dados
+        let login_count = 
+            await this.client.db_science.get('cmd_exec_count') || 0
+        await this.client.db_science.set('cmd_exec_count', login_count + 1)
     }
 }
 
