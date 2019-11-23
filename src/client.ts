@@ -33,6 +33,8 @@ class LumaClient {
             .then(async () => {
                 let dt = Math.floor(Date.now() - t0)
                 log(`Login feito em ${dt}ms`)
+
+                this.client.user.setActivity('c.ajuda')
             })
     }
 }
