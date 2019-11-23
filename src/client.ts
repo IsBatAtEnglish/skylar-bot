@@ -29,6 +29,7 @@ class LumaClient {
 
     async start() : Promise<void> {
         let t0 = Date.now()
+
         this.client.login(this.conf.get('auth'))
             .then(async () => {
                 let dt = Math.floor(Date.now() - t0)
@@ -36,6 +37,7 @@ class LumaClient {
 
                 this.client.user.setActivity('c.ajuda')
             })
+            .catch(() => this.start()) // tentar novamente
     }
 }
 
