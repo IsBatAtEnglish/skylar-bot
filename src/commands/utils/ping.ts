@@ -1,17 +1,18 @@
-import { Command, CommandHandler } from "../../commands";
-import { Client } from "../../client";
-import * as Discord from "discord.js";
-import Icons from "../../util/icons";
+import LumaClient from '../../client';
+import EmbedColors from '../../lib/colors';
+import Icons from '../../lib/icons'
+import Command from '../../lib/command'
+import * as Discord from 'discord.js';
 
 export default class implements Command {
     public name: string = 'ping'
     public description: string = 'Mostra o ping do bot'
     public usage: string = ''
-    public aliases: Array<string> = []
-    public priviledge: Array<string> = []
+    public aliases: string[] = []
+    public priviledge: string[] = []
 
-    public async run (client: Client, handler: CommandHandler, msg: Discord.Message) : Promise<void> {
-        msg.reply(`${Icons.Clock} Pong — levou **${client.discord.ping}ms**!`)
+    public async run (client: LumaClient, msg: Discord.Message, args: string[]) : Promise<void> {
+        msg.reply(`${Icons.Clock} Pong — levou **${Math.floor(client.client.ping)}ms**!`)
         return null    
     }
 }

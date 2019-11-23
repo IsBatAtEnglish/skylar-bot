@@ -1,65 +1,48 @@
 import { readdirSync } from 'fs'
-import { join } from 'path'
+import { join, resolve } from 'path'
 import { Message, User } from 'discord.js'
-import { Client } from './client'
-import log from './logger';
+import Command from './lib/command'
+import Client from './client'
+import log from './lib/logger';
 import chalk from 'chalk';
-import * as recursive from 'recursive-readdir';
+import recursive from 'recursive-readdir';
 
-interface Command {
-    name: string
-    description: string
-    usage: string
-    aliases: Array<string>
-    priviledge: Array<string>
-    run (client: Client, handler: CommandHandler, msg: Message, args: Array<string>): Promise<void>
-}
-
-class CommandHandler {
+class CommandManager {
     private client: Client // Cliente que pertence este handler
 
-    public commandPath: string = './'
-    public commands: Array<Command> = []
-    public prefix: string = '::'
+    public commandPath: string  = ''
+    public commands: Command[]  = []
+    public prefix: string       = 'c.'
 
     constructor (client: Client) {
         this.client = client
-        this.prefix = this.client.settings.value('prefix')
-        this.commandPath = this.client.settings.value('command_path')
+        this.prefix = this.client.conf.get('prefix')
+        this.commandPath = resolve(__dirname, './commands/')
+
+        this.loadAll()
     }
 
-    public async loadAll() : Promise<CommandHandler> {
+    public async loadAll() : Promise<void> {
         // Limpar os comandos já carregados
         this.commands.length = 0
 
-        const files: Array<string> = await recursive(this.commandPath)
+        const files: string[] = await recursive(this.commandPath)
 
         for (let file of files) {
-            // Corrigir o caminho do comando
-            file = join(__dirname, file)
-
-            try {
-                // Importa a classe de cada comando e as inicializa
-                const cmd = new (await import(file)).default()
-                this.commands.push(cmd)
-            } catch (ex) {
-                log(chalk.red(`Erro ao carregar o comando ${chalk.blue(file)}.`))
-                log(ex)
-                // Não deu para carregar esse comando, mas continuar carregando o resto
-                continue;
-            }
+            let Command = await import(file)
+            let cmd = new Command.default()
+            this.commands.push(cmd)
+            log('carregado:', cmd.name)
         }
-
-        return this
     }
 
     public async onMessage(msg: Message) : Promise<void> {
-        if (!msg.content.startsWith(this.prefix)) return null
+        let prefix = this.client.conf.get('prefix')
 
         const args = msg.content.split(' ')
         const cmd_id = args
             .shift()
-            .replace(this.prefix, '')
+            .replace(prefix, '')
 
         // Pegar o comando correspondente ao ID através de seu nome
         // ou de um alias
@@ -70,20 +53,19 @@ class CommandHandler {
         
         // Validar permissões
         const ownerOnly: boolean = cmd.priviledge.includes('BOT_OWNER')
-        if (ownerOnly && msg.author.id !== this.client.settings.value('owner'))
+        if (ownerOnly && msg.author.id !== this.client.conf.get('owner'))
             return null
             
-        cmd.run(this.client, this, msg, args)
+        cmd.run(this.client, msg, args)
             .catch(ex => {
                 log(chalk.red(`❌  Erro no comando ${chalk.blue(cmd.name)}!`))
                 // @ts-ignore
                 log(`Guild: ${msg.guild ? chalk.blue(msg.guild.name) : chalk.red('Não')}`)
                 log(`Mensagem: ${msg.cleanContent}`)
                 log(ex.stack)
-                msg.reply('Erro ao executar o comando.')
-                    .catch(() => { /* wtf? */ })
+                msg.reply(`*Houve um erro ao executar esse comando -- \`${ex.name}\`*`)
             })
     }
 }
 
-export { Command, CommandHandler }
+export default CommandManager

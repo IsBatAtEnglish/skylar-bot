@@ -1,33 +1,32 @@
-import { Command, CommandHandler } from "../../commands";
-import { Client } from "../../client";
-import * as Discord from "discord.js";
-import * as MathJS from "mathjs"
-import Icons from "../../util/icons";
-import { replaceAll } from "../../util/string"
-import EmbedColors from "../../util/colors";
+import LumaClient from '../../client';
+import EmbedColors from '../../lib/colors';
+import Command from '../../lib/command'
+import * as Discord from 'discord.js';
+import { evaluate } from 'mathjs'
+import { replaceAll } from '../../lib/string'
 
 export default class implements Command {
     public name: string = 'calc'
-    public description: string = 'Uma calculadora!'
-    public usage: string = '<continha>'
-    public aliases: Array<string> = []
-    public priviledge: Array<string> = []
+    public description: string = 'Resolve expressões matemáticas'
+    public usage: string = '<expressão>'
+    public aliases: string[] = []
+    public priviledge: string[] = []
 
-    public async run (client: Client, handler: CommandHandler, msg: Discord.Message, args: Array<string>) : Promise<void> {
+    public async run (client: LumaClient, msg: Discord.Message, args: string[]) : Promise<void> {
         // Calcular a expressão
         let exp: string = args.join(' ') || '0'
-        let res: string = 'Erro ao calcular a expressão.'
+        let res: string = '-'
         
         try {
-            res = MathJS.evaluate(exp).toString()
+            res = evaluate(exp).toString()
         } catch(ex) {
-            // Ignorar erro
+            res = `*MATH ERROR : ${ex.message}*`
         }
 
         let emb: Discord.RichEmbed = new Discord.RichEmbed()
         emb.setTitle(`${res}`)
-        emb.setFooter(`${replaceAll(exp, '*', '×')}`, `http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/calculator-icon.png`)
-        emb.setColor(EmbedColors.Purple)
+        emb.setFooter(`${replaceAll(exp, '*', '×')}`)
+        emb.setColor(EmbedColors.BackgroundEmbed)
         msg.channel.send({ embed: emb })
         return null    
     }

@@ -1,4 +1,4 @@
-import * as moment from 'moment'
+import moment from 'moment'
 moment.locale('pt-br')
 
 const log = (...data) : void => {

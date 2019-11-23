@@ -7,7 +7,8 @@ enum EmbedColors {
     Green = 0x4caf50,
     Yellow = 0xffeb3b,
     Orange = 0xef6c00,
-    BlueGray = 0x546e7a
+    BlueGray = 0x546e7a,
+    BackgroundEmbed = 0x2F3136
 }
 
 export default EmbedColors

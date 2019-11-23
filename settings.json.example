@@ -1,7 +1,6 @@
 {
     "auth": "",
     "owner": "",
-    "prefix": "::",
-    "command_path": "./commands/",
-    "db_name": "../db/bot.db"
+    "prefix": "c.",
+    "db_path": "./db/bot.db"
 }

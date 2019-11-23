@@ -1,4 +1,4 @@
-import * as Skylar from "./client"
+import Client from "./client"
 
-new Skylar.Client('../settings.json')
+new Client()
     .start()
