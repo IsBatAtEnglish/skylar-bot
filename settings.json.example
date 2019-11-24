@@ -2,5 +2,7 @@
     "auth": "",
     "owner": "",
     "prefix": "c.",
-    "db_url": ""
+    "db_url": "",
+    "external_services_url": "https://example.com",
+    "external_services_key": "examplepassword"
 }
