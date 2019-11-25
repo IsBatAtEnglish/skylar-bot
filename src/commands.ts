@@ -32,7 +32,7 @@ class CommandManager {
             let Command = await import(file)
             let cmd = new Command.default()
             this.commands.push(cmd)
-            log('carregado:', cmd.name)
+            log('carregado:', cmd.name, file)
         }
     }
 
@@ -63,7 +63,7 @@ class CommandManager {
                 log(`Guild: ${msg.guild ? chalk.blue(msg.guild.name) : chalk.red('Não')}`)
                 log(`Mensagem: ${msg.cleanContent}`)
                 log(ex.stack)
-                msg.reply(`*Houve um erro ao executar esse comando -- \`${ex.name}\`*`)
+                msg.reply(`*houve um erro ao executar esse comando -- \`${ex.name}\`*`)
             })
 
         // Atualizar número de logins no banco de dados
