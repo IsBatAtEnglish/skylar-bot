@@ -33,7 +33,7 @@ export default class implements Command {
 
         const $ = cheerio.load(body.data)
         const link = $('.result__snippet').attr('href')
-        console.log(link)
+        
         if (!link) {
             msg.reply('*nenhum resultado encontrado*')
             return
