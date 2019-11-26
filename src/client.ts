@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import { Client, Message } from 'discord.js'
-import { Db } from 'mongodb'
+import { Database } from 'sqlite'
 import CommandManager from './commands'
 import connectDatabase from './database'
 import log from './lib/logger'
@@ -9,7 +9,7 @@ class LumaClient {
     public conf:    Map<string, any>    = new Map
     public client:  Client              = new Client
     public cmdMngr: CommandManager      = new CommandManager(this)
-    public db: Db                       = null
+    public db: Database                 = null
 
     constructor () {
         let sett = JSON.parse(readFileSync('./settings.json', 'utf8'))
@@ -42,15 +42,15 @@ class LumaClient {
                 log(`Login feito em ${Date.now() - t1}ms`)
 
                 // Incrementar o contador de logins
-                let stats = await this.db.collection('stats')
-                                .findOneAndUpdate({
-                                    _id: this.client.user.id,
-                                }, { $inc: {
-                                    'logins': 1
-                                } }, { upsert: true })
-                                
-                if (stats.ok)
-                    this.client.user.setActivity(`n° de logins: ${stats.value.logins}`)
+                await this.db.run(`
+                    INSERT INTO stats (id, login_count) 
+                    VALUES (?, ?) 
+                    ON CONFLICT (id)
+                    DO UPDATE SET login_count = login_count + 1
+                `, this.client.user.id, 1)
+
+                let { login_count } = await this.db.get(`SELECT login_count FROM stats WHERE id = ?`, this.client.user.id)
+                this.client.user.setActivity(`n° de logins: ${login_count}`)
             })
             .catch(e => {
                 log(`Erro ao fazer login: ${e}`)

@@ -67,10 +67,12 @@ class CommandManager {
             })
 
         // Incrementar o contador de comandos
-        this.client.db.collection('stats')
-            .findOneAndUpdate({ _id: this.client.client.user.id }, 
-                              { $inc: { 'cmd_exec_count': 1 } }, 
-                              { upsert: true })
+        let count = await this.client.db.get(`
+            INSERT INTO stats (id, command_count) 
+            VALUES (?, ?) 
+            ON CONFLICT (id)
+            DO UPDATE SET command_count = command_count + 1
+        `, this.client.client.user.id, 1)
     }
 }
 
