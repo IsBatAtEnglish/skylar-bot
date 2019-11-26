@@ -66,10 +66,11 @@ class CommandManager {
                 msg.reply(`*houve um erro ao executar esse comando -- \`${ex.name}\`*`)
             })
 
-        // Atualizar número de logins no banco de dados
-        let login_count = 
-            await this.client.db_science.get('cmd_exec_count') || 0
-        await this.client.db_science.set('cmd_exec_count', login_count + 1)
+        // Incrementar o contador de comandos
+        this.client.db.collection('stats')
+            .findOneAndUpdate({ _id: this.client.client.user.id }, 
+                              { $inc: { 'cmd_exec_count': 1 } }, 
+                              { upsert: true })
     }
 }
 
